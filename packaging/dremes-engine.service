@@ -1,0 +1,42 @@
+# Dremes Engine background daemon.
+#
+# This is a per-user systemd unit.
+#
+# The Dremes Engine is OPT-IN. It is intentionally NOT enabled or started by
+# the DEB post-install script, so after installing (or rebooting) nothing runs
+# until the user explicitly starts it. This respects the product invariant:
+# "Engine OFF by default after install/reboot; no capture runs when Idle."
+#
+# To enable it (per-user) run:
+#   systemctl --user enable --now dremes-engine.service
+#
+# The Engine is a per-user service because it needs access to the user's
+# Waydroid/ADB/V4L2 environment and writes its IPC socket under the user's
+# XDG config directory (~/.config/dremes/engine.sock).
+#
+# The Engine itself does not auto-install here; this unit just makes the opt-in
+# daemon easy to start/manage. When not enabled it does nothing.
+
+[Unit]
+Description=Dremes Engine (Waydroid + streaming control center daemon)
+Documentation=file:///usr/share/doc/dremes/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/lib/dremes-engine/dremes-engine
+Restart=on-failure
+RestartSec=3
+
+# Moderate sandboxing: the Engine needs /dev/video* (capture), /proc and /sys
+# (resource/process monitoring) and write access to the user's XDG config dir
+# for its IPC socket. We keep the obvious safety flags without breaking adb or
+# the Waydroid session.
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=%h/.config/dremes
+
+[Install]
+WantedBy=default.target

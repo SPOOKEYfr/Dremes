@@ -1,0 +1,20 @@
+# Dremes portal re-sync (user unit, runs once at login).
+#
+# Ensures the XDG desktop portal advertises its screen-capture source types so
+# OBS never hides "Screen Capture (PipeWire)". The portal sometimes caches
+# "0 available source types" at login; this one-shot restarts it when stale.
+#
+# Per-user, so enable with: systemctl --user enable --now dremes-portal-sync.service
+
+[Unit]
+Description=Dremes portal re-sync (OBS Screen Capture (PipeWire) availability)
+After=xdg-desktop-portal.service
+After=xdg-desktop-portal-gnome.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/dremes-engine/portal-sync.sh
+RemainAfterExit=no
+
+[Install]
+WantedBy=default.target

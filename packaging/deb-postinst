@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+#
+# Dremes DEB post-installation script.
+#
+# The Engine is deliberately OFF by default.
+#
+set -euo pipefail
+
+APP_NAME="dremes"
+DESKTOP_DIR="/usr/share/applications"
+DOC_DIR="/usr/share/doc/${APP_NAME}"
+
+# Refresh desktop database.
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database "${DESKTOP_DIR}" >/dev/null 2>&1 || true
+fi
+
+# Refresh icon cache.
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    for s in /usr/share/icons/*/; do
+        [ -d "$s" ] || continue
+        gtk-update-icon-cache -f -q "${s}" >/dev/null 2>&1 || true
+    done
+fi
+
+# The service is installed as a USER systemd unit.
+# Do NOT enable or start it here.
+#
+# This is intentional:
+#   Engine OFF after installation
+#   Engine OFF after reboot unless the user explicitly enables it
+#
+# A user can opt in with:
+#   systemctl --user enable --now dremes-engine.service
+
+mkdir -p "${DOC_DIR}"
+
+cat > "${DOC_DIR}/ENGINE-NOTICE" <<'EOF'
+Dremes Engine is OPT-IN and is intentionally NOT started after installation.
+
+To start it manually:
+  systemctl --user start dremes-engine.service
+
+To enable it for future logins:
+  systemctl --user enable --now dremes-engine.service
+
+To disable it:
+  systemctl --user disable --now dremes-engine.service
+
+The Engine stays OFF by default so nothing auto-starts or streams when idle.
+EOF
+
+exit 0

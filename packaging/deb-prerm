@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Dremes DEB pre-removal script.
+#
+# Stops/disables the per-user Engine if it is running/enabled.
+# User configuration is intentionally preserved.
+#
+set -euo pipefail
+
+APP_NAME="dremes"
+
+echo "==> Stopping Dremes Engine before removal"
+
+# Do not fail if there is no user systemd session.
+systemctl --user disable --now "${APP_NAME}-engine.service" 2>/dev/null || true
+systemctl --user daemon-reload 2>/dev/null || true
+
+# Safety fallback in case the process was started outside systemd.
+pkill -f "/usr/lib/${APP_NAME}-engine/${APP_NAME}-engine" 2>/dev/null || true
+
+exit 0

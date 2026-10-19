@@ -1,0 +1,13 @@
+[package]
+name = "dremes-linux-backend"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Dremes Linux backend: Waydroid, ADB, scrcpy, V4L2 management."
+
+[target.'cfg(target_os = "linux")'.dependencies]
+dremes-core = { path = "../core" }
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+thiserror.workspace = true

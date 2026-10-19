@@ -1,0 +1,27 @@
+[package]
+name = "dremes-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Dremes background engine daemon."
+
+[[bin]]
+name = "dremes-engine"
+path = "src/main.rs"
+
+[dependencies]
+dremes-core = { path = "../core" }
+dremes-linux-backend = { path = "../linux-backend", optional = true }
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+env_logger.workspace = true
+thiserror.workspace = true
+
+[target.'cfg(target_os = "windows")'.dependencies]
+dremes-windows-backend = { path = "../windows-backend", optional = true }
+
+[features]
+default = ["linux"]
+linux = ["dep:dremes-linux-backend"]
+windows = ["dep:dremes-windows-backend"]

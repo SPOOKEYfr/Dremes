@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Dremes
+Name[en]=Dremes
+GenericName=Waydroid & Streaming Control Center
+Comment=Manage Waydroid, gaming, streaming, capture and OBS integration
+Exec=/usr/bin/dremes
+Icon=dremes
+Terminal=false
+Categories=Utility;System;AudioVideo;
+Keywords=waydroid;streaming;obs;capture;gaming;v4l2;android;
+StartupNotify=true
+StartupWMClass=dremes

@@ -1,0 +1,19 @@
+Package: dremes
+Version: 0.2.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Essential: no
+Maintainer: SPOOKEYfr <oibhupii@gmail.com>
+Installed-Size: 0
+Depends: libwebkit2gtk-4.1-0, libgtk-3-0, libc6, waydroid, adb, vlc-plugin-base | videodecode
+Recommends: scrcpy, obs-studio, v4l2loopback-dkms, v4l2loopback-utils
+Suggests: imagemagick, wf-recorder, obs-vkcapture, xdotool
+Description: Waydroid & Streaming Control Center
+ Direct Waydroid → scrcpy → V4L2 → OBS capture control center.
+ Consolidates Waydroid, gaming, streaming, capture, OBS integration,
+ resource monitoring and automatic recovery into one Tauri GUI plus a
+ separate opt-in Engine daemon.
+ .
+ The Engine is OFF by default after install/reboot and must be started
+ explicitly; nothing auto-starts or streams when Idle.

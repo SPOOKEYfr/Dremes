@@ -1,0 +1,28 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Node / frontend
+node_modules/
+apps/gui/dist/
+apps/gui/src-tauri/target/
+apps/gui/src-tauri/gen/
+
+# Tauri / OS
+*.deb
+*.rpm
+*.AppImage
+*.dmg
+
+# Editor / OS noise
+.DS_Store
+*.swp
+.idea/
+.vscode/
+# Debian staging tree produced by packaging/build-deb.sh
+packaging/deb/
+*.bak
+
+# Built .deb output
+target/*.deb
+target/*.sha256
